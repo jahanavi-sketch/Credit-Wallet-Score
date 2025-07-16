@@ -1,17 +1,32 @@
-# Aave V2 Wallet Credit Scoring
+# 🏦 Aave V2 Credit Wallet Scoring
 
-Assign credit scores (0–1000) to wallets interacting with the Aave V2 protocol.
+This project computes a **credit score (0–1000)** for each wallet that interacted with the Aave V2 protocol, based solely on transaction behavior. It helps to evaluate wallet reliability in a decentralized finance (DeFi) context.
 
-## 📦 What It Does
+---
 
-- Reads DeFi transaction JSON
-- Extracts wallet-level behavior
-- Computes a trust score based on repayments, liquidations, etc.
-- Saves score file + chart
+## 🎯 Problem Statement
 
-## 🚀 How to Use
+You are provided with user-level transaction data (actions: deposit, borrow, repay, redeem, liquidationcall) and must generate wallet scores reflecting how "trustworthy" or risky each wallet is.
 
-1. Place your `user_transactions.json` file in the project
-2. Run the script:
-```bash
-python score_wallets.py
+---
+
+## 🧠 Method Chosen
+
+We used a **rule-based scoring system** that assigns weight to key behaviors:
+- **Deposits** → positive impact
+- **Repayments** → positive impact
+- **Liquidations** → strong negative impact
+- **Number of transactions** and **active days** → reliability proxy
+
+Final score is scaled and clipped between `0–1000`.
+
+---
+
+## ⚙️ Score Formula
+
+```python
+score = log1p(total_deposit_amt) * 10 \
+      + repay_ratio * 300 \
+      - num_liquidations * 100 \
+      + log1p(activity_days) * 10 \
+      + num_txns * 2
