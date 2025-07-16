@@ -11,7 +11,7 @@ Assign credit scores (0–1000) to wallets interacting with the Aave V2 protocol
 
 ## 🚀 How to Use
 
-1. Place your `user_transactions.json` file in `data/`
+1. Place your `user_transactions.json` file in the project
 2. Run the script:
 ```bash
 python score_wallets.py
